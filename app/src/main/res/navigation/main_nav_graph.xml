@@ -6,6 +6,6 @@
 
     <fragment
         android:id="@+id/sampleFragment"
-        android:name="net.intersvyaz.androiddemo.SampleFragment"
+        android:name="net.intersvyaz.androiddemo.presenter.SampleFragment"
         android:label="SampleFragment" />
 </navigation>
