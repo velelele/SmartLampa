@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">androiddemo</string>
+    <string name="error_title">Произошла ошибка</string>
 </resources>
