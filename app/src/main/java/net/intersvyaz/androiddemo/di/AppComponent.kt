@@ -2,6 +2,8 @@ package net.intersvyaz.androiddemo.di
 
 import dagger.Component
 
-@Component
+@Component(
+    modules = [ AppModule::class ]
+)
 interface AppComponent {
 }
