@@ -1,4 +1,4 @@
-package net.intersvyaz.androiddemo.presenter
+package net.intersvyaz.androiddemo.presenter.sample
 
 import androidx.lifecycle.ViewModel
 import javax.inject.Inject
