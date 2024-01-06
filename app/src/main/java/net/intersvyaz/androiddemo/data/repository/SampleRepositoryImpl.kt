@@ -21,4 +21,52 @@ class SampleRepositoryImpl @Inject constructor(
             }
         )
     }
+
+    override suspend fun getColors(): Result<List<String>?> {
+
+        kotlin.runCatching {
+            service.getColors()
+        }.fold(
+            onSuccess = {
+                return if (it.isSuccessful)
+                    Result.success(it.body())
+                else Result.failure(HttpException(it))
+            },
+            onFailure = {
+                return Result.failure(it)
+            }
+        )
+    }
+
+    override suspend fun turnOnLamp(): Result<Boolean?> {
+
+        kotlin.runCatching {
+            service.turnOnLamp()
+        }.fold(
+            onSuccess = {
+                return if (it.isSuccessful)
+                    Result.success(it.body())
+                else Result.failure(HttpException(it))
+            },
+            onFailure = {
+                return Result.failure(it)
+            }
+        )
+    }
+
+    override suspend fun turnOffLamp(): Result<Boolean?> {
+
+        kotlin.runCatching {
+            service.turnOffLamp()
+        }.fold(
+            onSuccess = {
+                return if (it.isSuccessful)
+                    Result.success(it.body())
+                else Result.failure(HttpException(it))
+            },
+            onFailure = {
+                return Result.failure(it)
+            }
+        )
+    }
 }

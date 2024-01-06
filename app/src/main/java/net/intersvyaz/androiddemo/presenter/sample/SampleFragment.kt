@@ -27,45 +27,23 @@ class SampleFragment : Fragment(R.layout.fragment_sample) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecycler()
-        viewModel.liveData.observe(viewLifecycleOwner) {
-            onDataReceived(it)
-        }
-        viewModel.loadData()
+
+        start()
+
     }
 
-    private fun onDataReceived(jokesCategories: UiState<List<String>?>?) {
-        when(jokesCategories) {
-            is UiState.Success -> {
-                binding.sampleRecycler.visibility = View.VISIBLE
-                binding.sampleProgress.visibility = View.GONE
-                binding.errorImage.visibility = View.GONE
-                binding.errorTitle.visibility = View.GONE
-                binding.errorSubtitle.visibility = View.GONE
-                jokesCategories.value?.let { adapter.submitList(it) }
-            }
-            is UiState.Failure -> {
-                binding.sampleRecycler.visibility = View.GONE
-                binding.sampleProgress.visibility = View.GONE
-                binding.errorImage.visibility = View.VISIBLE
-                binding.errorTitle.visibility = View.VISIBLE
-                binding.errorSubtitle.visibility = View.VISIBLE
-                binding.errorSubtitle.text = jokesCategories.message
-            }
-            is UiState.Loading -> {
-                binding.sampleRecycler.visibility = View.GONE
-                binding.sampleProgress.visibility = View.VISIBLE
-                binding.errorImage.visibility = View.GONE
-                binding.errorTitle.visibility = View.GONE
-                binding.errorSubtitle.visibility = View.GONE
-            }
-            else -> {}
-        }
-    }
+    private fun start() {
 
-    private fun initRecycler() = with(binding.sampleRecycler) {
-        layoutManager = LinearLayoutManager(requireContext())
-        adapter = this@SampleFragment.adapter
+        binding.ToggleSwitch.setOnCheckedChangeListener{ _ , isChecked ->
+            if (isChecked){
+                viewModel.onLamp()
+                binding.ToggleSwitch.text = "вкл"
+
+            } else {
+                viewModel.offLamp()
+                binding.ToggleSwitch.text = "выкл"
+            }
+        }
     }
 
     override fun onAttach(context: Context) {

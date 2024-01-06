@@ -12,7 +12,7 @@ class NetworkModule {
     @Provides
     fun provideSampleService(): SampleService =
         Retrofit.Builder()
-            .baseUrl("https://api.chucknorris.io/")
+            .baseUrl("http://195.54.14.121:8086/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(SampleService::class.java)
