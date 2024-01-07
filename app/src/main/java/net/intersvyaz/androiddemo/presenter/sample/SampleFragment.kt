@@ -3,6 +3,8 @@ package net.intersvyaz.androiddemo.presenter.sample
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,17 +24,68 @@ class SampleFragment : Fragment(R.layout.fragment_sample) {
     lateinit var viewModelFactory: ViewModelFactory
 
     private val viewModel: SampleViewModel by viewModels() { viewModelFactory }
-
-    private val adapter = SampleAdapter()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        start()
+        switchController()
+        seekController()
+        viewModel.colors.observe(viewLifecycleOwner){
+            spinnerController(it)
+        }
+        viewModel.getColors()
 
     }
 
-    private fun start() {
+
+
+    private fun spinnerController(colors: UiState<List<String>?>){
+
+        when(colors){
+            is UiState.Success ->{
+                val colorList = colors.value ?: emptyList()
+                val adapter = SpinnerAdapter(requireContext(), colorList)
+                binding.spinner.adapter = adapter
+            }
+
+            else -> {}
+        }
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedItem = parent?.getItemAtPosition(position).toString()
+                viewModel.setColor(selectedItem)
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+
+    }
+
+    private fun seekController(){
+        var currentProgress = 0
+        val seekBar = binding.seekBar
+        seekBar.max = 99
+
+        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+
+                currentProgress = progress + 1
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                viewModel.setBrightness(currentProgress)
+            }
+        })
+
+    }
+
+    private fun switchController() {
 
         binding.ToggleSwitch.setOnCheckedChangeListener{ _ , isChecked ->
             if (isChecked){

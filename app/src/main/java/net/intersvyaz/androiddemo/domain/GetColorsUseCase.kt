@@ -1,6 +1,6 @@
 package net.intersvyaz.androiddemo.domain
 
-interface GetJokesCategoriesUseCase {
+interface GetColorsUseCase {
     suspend operator fun invoke(): Result<List<String>?>
 }
 
